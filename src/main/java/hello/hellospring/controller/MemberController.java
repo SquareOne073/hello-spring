@@ -15,6 +15,9 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
+    // DI 에서 3가지가 있는데 위의 겅우는 1) 생성자 주입
+    // @Autowired private MemberService memberService; <-- 2) 필드 주입
+    // 3) Setter 주입 -- public 으로 열려 있어야 하기에 약간의 단점
 
 
 }
