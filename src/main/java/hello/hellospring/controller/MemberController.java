@@ -1,9 +1,14 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -20,9 +25,28 @@ public class MemberController {
     // @Autowired private MemberService memberService; <-- 2) 필드 주입
     // 3) Setter 주입 -- public 으로 열려 있어야 하기에 약간의 단점
 
-    @GetMapping("/member/new")
-    public String createMember
-            654
-    ouyrsa
+    // GET 방식 - 그냥 해당 페이지가 뿌려짐 (주로 조회할 때 사용 / 디폴트)
+    @GetMapping("/members/new")
+    public String createForm() {
+        return "members/createMemberForm";
+    }
+
+    // POST - 데이터 등록, 수정 할 때 주로 사용
+    @PostMapping("/members/new")
+    public String create(MemberForm form){
+        Member member = new Member();
+        member.setName(form.getName());
+
+        memberService.join(member);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/members")
+    public String List(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
 
 }
