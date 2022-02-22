@@ -44,12 +44,13 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
 
     @Override
     public Optional<Member> findByName(String name) {
-        return Optional.empty();
+        List<Member> result = jdbcTemplate.query("SELECT * FROM MEMBER where name = ?", memberRowMapper(), name);
+        return result.stream().findAny();
     }
 
     @Override
     public List<Member> findAll() {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM MEMBER", memberRowMapper());
     }
 
     private RowMapper<Member> memberRowMapper() {
@@ -62,6 +63,8 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
             return member;
         };
     }
+
+
 
 
 }
